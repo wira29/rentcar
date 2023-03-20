@@ -14,9 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('regencies', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('provinces')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('name');
+            $table->char('id', 20)->primary();
+            $table->char('province_id', 20);
+            $table->string('name', 100);
+            $table->foreign('province_id')->references('id')->on('provinces');
             $table->timestamps();
         });
     }
