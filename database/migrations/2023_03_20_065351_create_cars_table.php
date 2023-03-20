@@ -13,16 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('cars', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('rentals')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('phone_number', 15)->nullable();
-            $table->text('address')->nullable();
+            $table->enum('transmission', ['manual', 'automatic']);
+            $table->integer('chairs_ammount');
+            $table->string('vehicle_license');
+            $table->string('merk');
+            $table->integer('price');
+            $table->enum('car_type', ['city car', 'compact mpv', 'mini mpv', 'minivan', 'suv']);
             $table->text('photo')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('cars');
     }
 };
