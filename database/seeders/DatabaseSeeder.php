@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        Artisan::call('import:districts');
         $this->call([
            RoleSeeder::class,
            UserSeeder::class

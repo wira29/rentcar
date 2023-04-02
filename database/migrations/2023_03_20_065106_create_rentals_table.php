@@ -15,10 +15,14 @@ return new class extends Migration
     {
         Schema::create('rentals', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('users')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
+            $table->integer('province_id');
+            $table->integer('regency_id');
+            $table->integer('district_id');
+            $table->integer('village_id');
             $table->text('address');
-            $table->text('policies');
+            $table->text('policies')->nullable();
             $table->text('photo')->nullable();
             $table->timestamps();
         });
