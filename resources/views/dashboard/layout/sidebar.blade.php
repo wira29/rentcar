@@ -26,6 +26,7 @@
                     <span class="align-middle">Dashboard</span>
                 </a>
             </li>
+            @if(auth()->user()->roles->pluck('name')[0] == 'admin')
             <li class="sidebar-item {{ request()->routeIs('admin.rentcars.*') ? 'active' : '' }}">
                 <a data-bs-target="#pages" data-bs-toggle="collapse" class="sidebar-link collapsed">
                     <i class="align-middle me-2 fas fa-fw fa-car"></i>
@@ -48,7 +49,24 @@
                     <span class="align-middle">Absensi Siswa</span>
                 </a>
             </li>
-
+            @elseif(auth()->user()->roles->pluck('name')[0] == 'rental')
+                <li class="sidebar-item {{ request()->routeIs('rental.cars.*') ? 'active' : '' }}">
+                    <a data-bs-target="#pages" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle me-2 fas fa-fw fa-car"></i>
+                        <span class="align-middle">Mobil</span>
+                    </a>
+                    <ul id="pages"
+                        class="sidebar-dropdown list-unstyled collapse {{ request()->routeIs('rental.cars.*') ? 'show' : '' }}"
+                        data-bs-parent="#sidebar">
+                        <li class="sidebar-item {{ request()->routeIs('rental.cars.create') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('rental.cars.create') }}">Tambah Mobil</a>
+                        </li>
+                        <li class="sidebar-item {{ request()->routeIs('rental.cars.index') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('rental.cars.index') }}">List Mobil</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
         </ul>
     </div>
 </nav>

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('rentals')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignUuid('rental_id')->constrained('rentals')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name');
             $table->enum('transmission', ['manual', 'automatic']);
             $table->integer('chairs_ammount');
