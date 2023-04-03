@@ -78,7 +78,32 @@
     </div>
 
     <script src="{{ asset('admin-assets/js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('script')
+    <script>
+        @if(Session::has('success'))
+        Swal.fire({
+            text: "{{ Session::get('success') }}",
+            icon: "success",
+            buttonsStyling: false,
+            confirmButtonText: "Ok!",
+            customClass: {
+                confirmButton: "btn btn-primary"
+            }
+        });
+        @endif
+        @if(Session::has('error'))
+        Swal.fire({
+            text: "{{ Session::get('error') }}",
+            icon: "error",
+            buttonsStyling: false,
+            confirmButtonText: "Ok!",
+            customClass: {
+                confirmButton: "btn btn-danger"
+            }
+        });
+        @endif
+    </script>
 </body>
 
 
