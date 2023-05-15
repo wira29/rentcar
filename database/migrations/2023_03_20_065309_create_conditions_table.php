@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('conditions', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('rentals')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignUuid('rental_id')->constrained('rentals')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('title');
             $table->text('description');
             $table->timestamps();

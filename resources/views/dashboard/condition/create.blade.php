@@ -1,7 +1,7 @@
 @extends('dashboard.layout.app') @section('content')
     <main class="content">
         <div class="container-fluid p-0">
-            <h1 class="h3 mb-3">Halaman Rental</h1>
+            <h1 class="h3 mb-3">Halaman Kondisi</h1>
 
             <div class="row">
                 <div class="col-12">
@@ -10,90 +10,33 @@
                     @endif
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Tambah Rental</h5>
+                            <h5 class="card-title mb-0">Tambah Kondisi</h5>
                         </div>
                         <div class="card-body">
-
-                            <div class="col-12">
-                                <div class="alert alert-warning alert-dismissible" role="alert">
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    <div class="alert-message">
-                                        <h4 class="alert-heading">Informasi!</h4>
-                                        <ul>
-                                            <li>Default email user dari rental adalah kata pertama pada nama rental. <b>ex : bintang@gmail.com</b></li>
-                                            <li>Default password user dari rental adalah <b>password</b>.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
                             <form
                                 id="form"
-                                action="{{ route('admin.rentcars.store') }}"
+                                action="{{ route('rental.conditions.store') }}"
                                 method="POST"
+                                enctype="multipart/form-data"
                             >
                                 @method('POST') @csrf
                                 <div class="row">
                                     <div class="col-md-12 mb-3">
-                                        <label class="form-label">Nama</label>
+                                        <label class="form-label">Judul</label>
                                         <input
                                             type="text"
-                                            value="{{ old('name') }}"
-                                            name="name"
+                                            value="{{ old('title') }}"
+                                            name="title"
                                             class="form-control"
-                                            placeholder="Bintang Cahaya Trans"
+                                            placeholder="KTP/paspor"
                                             autofocus
                                         />
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Provinsi</label>
-                                        <select
-                                            class="form-control select2"
-                                            data-toggle="select2"
-                                            name="province_id"
-                                        >
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kabupaten / Kota</label>
-                                        <div class="mb-3">
-                                            <select
-                                                class="form-control select2"
-                                                data-toggle="select2"
-                                                name="regency_id"
-                                            >
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kecamatan</label>
-                                        <select
-                                            class="form-control select2"
-                                            data-toggle="select2"
-                                            name="district_id"
-                                        >
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Desa / Kelurahan</label>
-                                        <div class="mb-3">
-                                            <select
-                                                class="form-control select2"
-                                                data-toggle="select2"
-                                                name="village_id"
-                                            >
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-5">
+                                <div class="row mb-3">
                                     <div class="col-md-12">
-                                        <label class="form-label">Alamat</label>
-                                        <textarea class="form-control" name="address" id="address" cols="30" rows="10" placeholder="alamat detail"></textarea>
+                                        <label class="form-label">Deskripsi</label>
+                                        <textarea type="number" rows="4" cols="4" class="form-control" name="description" value="{{ old('description') }}" placeholder="Pengemudi harus membagikan kepada penyedia foto KTP/paspor mereka."></textarea>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">

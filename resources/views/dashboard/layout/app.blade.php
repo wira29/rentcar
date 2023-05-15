@@ -29,6 +29,7 @@
     <!-- Remove this after purchasing -->
     <link class="js-stylesheet" href="{{ asset('admin-assets/css/light.css') }}" rel="stylesheet">
     <!-- END SETTINGS -->
+
     <script>
         (function(h, o, t, j, a, r) {
             h.hj = h.hj || function() {

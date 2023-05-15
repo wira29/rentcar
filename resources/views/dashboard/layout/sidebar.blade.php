@@ -43,12 +43,12 @@
                     </li>
                 </ul>
             </li>
-            <li class="sidebar-item {{ request()->routeIs('attendance.today') ? 'active' : '' }}">
-                <a class="sidebar-link" href="">
-                    <i class="align-middle me-2 fas fa-fw fa-chalkboard-teacher"></i>
-                    <span class="align-middle">Absensi Siswa</span>
-                </a>
-            </li>
+{{--            <li class="sidebar-item {{ request()->routeIs('attendance.today') ? 'active' : '' }}">--}}
+{{--                <a class="sidebar-link" href="">--}}
+{{--                    <i class="align-middle me-2 fas fa-fw fa-chalkboard-teacher"></i>--}}
+{{--                    <span class="align-middle">Absensi Siswa</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
             @elseif(auth()->user()->roles->pluck('name')[0] == 'rental')
                 <li class="sidebar-item {{ request()->routeIs('rental.cars.*') ? 'active' : '' }}">
                     <a data-bs-target="#pages" data-bs-toggle="collapse" class="sidebar-link collapsed">
@@ -63,6 +63,38 @@
                         </li>
                         <li class="sidebar-item {{ request()->routeIs('rental.cars.index') ? 'active' : '' }}">
                             <a class="sidebar-link" href="{{ route('rental.cars.index') }}">List Mobil</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('rental.drivers.*') ? 'active' : '' }}">
+                    <a data-bs-target="#pages-drivers" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle me-2 fas fa-fw fa-users"></i>
+                        <span class="align-middle">Sopir</span>
+                    </a>
+                    <ul id="pages-drivers"
+                        class="sidebar-dropdown list-unstyled collapse {{ request()->routeIs('rental.drivers.*') ? 'show' : '' }}"
+                        data-bs-parent="#sidebar">
+                        <li class="sidebar-item {{ request()->routeIs('rental.drivers.create') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('rental.drivers.create') }}">Tambah Sopir</a>
+                        </li>
+                        <li class="sidebar-item {{ request()->routeIs('rental.drivers.index') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('rental.drivers.index') }}">List Sopir</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('rental.conditions.*') ? 'active' : '' }}">
+                    <a data-bs-target="#pages-conditions" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle me-2 fas fa-fw fa-users"></i>
+                        <span class="align-middle">Ketentuan</span>
+                    </a>
+                    <ul id="pages-conditions"
+                        class="sidebar-dropdown list-unstyled collapse {{ request()->routeIs('rental.conditions.*') ? 'show' : '' }}"
+                        data-bs-parent="#sidebar">
+                        <li class="sidebar-item {{ request()->routeIs('rental.conditions.create') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('rental.conditions.create') }}">Tambah Ketentuan</a>
+                        </li>
+                        <li class="sidebar-item {{ request()->routeIs('rental.conditions.index') ? 'active' : '' }}">
+                            <a class="sidebar-link" href="{{ route('rental.conditions.index') }}">List Ketentuan</a>
                         </li>
                     </ul>
                 </li>

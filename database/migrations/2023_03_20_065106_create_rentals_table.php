@@ -17,10 +17,10 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
-            $table->integer('province_id');
-            $table->integer('regency_id');
-            $table->integer('district_id');
-            $table->integer('village_id');
+            $table->string('province_id');
+            $table->string('regency_id');
+            $table->string('district_id');
+            $table->string('village_id');
             $table->text('address');
             $table->text('policies')->nullable();
             $table->text('photo')->nullable();

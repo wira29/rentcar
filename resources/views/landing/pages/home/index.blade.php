@@ -29,29 +29,43 @@
                 <div class="col-md-12	featured-top">
                     <div class="row no-gutters">
                         <div class="col-md-4 d-flex align-items-center">
-                            <form action="#" class="request-form ftco-animate bg-primary">
-                                <h2>Make your trip</h2>
+                            <form action="{{ route('landing.searchRentals') }}" method="GET" class="request-form ftco-animate bg-primary">
+                                @csrf
+                                <h2>Pilih Jadwal</h2>
                                 <div class="form-group">
-                                    <label for="" class="label">Pick-up location</label>
-                                    <input type="text" class="form-control" placeholder="City, Airport, Station, etc">
+                                    <label for="" class="label">Pilih Provinsi</label>
+                                    <select
+                                        class="form-control select2"
+                                        data-toggle="select2"
+                                        name="province_id"
+                                    >
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="" class="label">Drop-off location</label>
-                                    <input type="text" class="form-control" placeholder="City, Airport, Station, etc">
+                                    <label for="" class="label">Pilih Kota</label>
+                                    <select
+                                        class="form-control select2"
+                                        data-toggle="select2"
+                                        name="regency_id"
+                                    >
+                                    </select>
                                 </div>
                                 <div class="d-flex">
                                     <div class="form-group mr-2">
-                                        <label for="" class="label">Pick-up date</label>
-                                        <input type="text" class="form-control" id="book_pick_date" placeholder="Date">
+                                        <label for="" class="label">Tanggal Mulai</label>
+                                        <input type="date" name="date" class="form-control" placeholder="Date">
                                     </div>
                                     <div class="form-group ml-2">
-                                        <label for="" class="label">Drop-off date</label>
-                                        <input type="text" class="form-control" id="book_off_date" placeholder="Date">
+                                        <label for="" class="label">Durasi</label>
+                                        <input type="number" name="days" class="form-control" placeholder="6 hari">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="" class="label">Pick-up time</label>
-                                    <input type="text" class="form-control" id="time_pick" placeholder="Time">
+                                    <label for="" class="label">Sopir</label>
+                                    <select class="form-control text-black" name="sopir" id="">
+                                        <option value="0">Tanpa Sopir</option>
+                                        <option value="1">Dengan Sopir</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" value="Rent A Car Now" class="btn btn-secondary py-3 px-4">
@@ -87,7 +101,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p><a href="#" class="btn btn-primary py-3 px-4">Reserve Your Perfect Car</a></p>
                             </div>
                         </div>
                     </div>
@@ -419,4 +432,96 @@
             </div>
         </div>
     </section>
+@endsection
+@section('script')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Select2
+            $(".select2").each(function() {
+                $(this)
+                    .wrap("<div class=\"position-relative\"></div>")
+                    .select2({
+                        placeholder: "Select value",
+                        dropdownParent: $(this).parent()
+                    });
+            })
+
+            loadProvince()
+
+            function loadProvince()
+            {
+                $.ajax({
+                    method: 'GET',
+                    url: 'https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json',
+                    dataType: 'JSON',
+                    success: function (provinces) {
+                        let html = ''
+
+                        provinces.map(province => {
+                            html += `<option value="${province.id}">${province.name}</option>`
+                        })
+
+                        $('select[name="province_id"]').html(html)
+
+                        $('select[name="province_id"]').trigger("change")
+                    }
+                })
+            }
+
+            $('select[name="province_id"]').change(function() {
+                $.ajax({
+                    method: 'GET',
+                    url: `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${$(this).val()}.json`,
+                    dataType: 'JSON',
+                    success: function (provinces) {
+                        let html = ''
+
+                        provinces.map(province => {
+                            html += `<option value="${province.id}">${province.name}</option>`
+                        })
+
+                        $('select[name="regency_id"]').html(html)
+
+                        $('select[name="regency_id"]').trigger("change")
+                    }
+                })
+            })
+
+            $('select[name="regency_id"]').change(function() {
+                $.ajax({
+                    method: 'GET',
+                    url: `https://www.emsifa.com/api-wilayah-indonesia/api/districts/${$(this).val()}.json`,
+                    dataType: 'JSON',
+                    success: function (provinces) {
+                        let html = ''
+
+                        provinces.map(province => {
+                            html += `<option value="${province.id}">${province.name}</option>`
+                        })
+
+                        $('select[name="district_id"]').html(html)
+
+                        $('select[name="district_id"]').trigger("change")
+                    }
+                })
+            })
+
+            $('select[name="district_id"]').change(function() {
+                $.ajax({
+                    method: 'GET',
+                    url: `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${$(this).val()}.json`,
+                    dataType: 'JSON',
+                    success: function (provinces) {
+                        let html = ''
+
+                        provinces.map(province => {
+                            html += `<option value="${province.id}">${province.name}</option>`
+                        })
+
+                        $('select[name="village_id"]').html(html)
+                    }
+                })
+            })
+        });
+    </script>
 @endsection

@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('rents', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('cars')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('drivers')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('car_id')->constrained('cars')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('driver_id')->nullable()->constrained('drivers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('users')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->dateTime('date');
-            $table->integer('days');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->enum('status', ['pending', 'disewa', 'selesai']);
             $table->timestamps();
         });

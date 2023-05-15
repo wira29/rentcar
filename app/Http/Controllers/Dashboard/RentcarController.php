@@ -57,7 +57,7 @@ class RentcarController extends Controller
 
         Rental::create($data);
 
-        return to_route('admin.rentcars.index');
+        return to_route('admin.rentcars.index')->with('success', 'Berhasil menambahkan rental !');
     }
 
     /**
@@ -97,7 +97,7 @@ class RentcarController extends Controller
     {
         $rentcar->update($request->all());
 
-        return to_route('admin.rentcars.index');
+        return to_route('admin.rentcars.index')->with('success', 'Berhasil mengedit rental !');
     }
 
     /**
@@ -110,6 +110,6 @@ class RentcarController extends Controller
     {
         User::where('id', $rentcar->user_id)->delete();
 
-        return back();
+        return back()->with('success', 'Berhasil menghapus rental !');
     }
 }

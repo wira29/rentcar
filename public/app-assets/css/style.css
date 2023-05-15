@@ -8510,6 +8510,9 @@ h1, h2, h3, h4, h5,
       color: rgba(255, 255, 255, 0.7); }
     .request-form .form-control:focus, .request-form .form-control:active {
       border-color: #fff; }
+    .request-form option {
+        color: black;
+    }
   .request-form textarea.form-control {
     height: inherit !important; }
 
