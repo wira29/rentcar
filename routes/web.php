@@ -4,7 +4,9 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Dashboard\CarController;
 use App\Http\Controllers\Dashboard\DriverController;
 use App\Http\Controllers\Dashboard\HomeController;
-use App\Http\Controllers\{Dashboard\ConditionController, HomeController as LandingHomeController};
+use App\Http\Controllers\{Dashboard\ConditionController,
+    Dashboard\ProfileRentalController,
+    HomeController as LandingHomeController};
 use App\Http\Controllers\Dashboard\RentcarController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,7 +50,8 @@ Route::middleware('auth')->group(function() {
         Route::resources([
             'cars' => CarController::class,
             'drivers' => DriverController::class,
-            'conditions' => ConditionController::class
+            'conditions' => ConditionController::class,
+            'rental' => ProfileRentalController::class,
         ]);
     });
 });

@@ -27,4 +27,9 @@ class Rental extends Model
     {
         return $this->hasMany(Car::class);
     }
+
+    public function conditions() : HasMany
+    {
+        return $this->hasMany(Condition::class);
+    }
 }

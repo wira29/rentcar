@@ -67,16 +67,42 @@ class HomeController extends Controller
         $params = array(
             'transaction_details' => array(
                 'order_id' => rand(),
-                'gross_amount' => 1000000,
+                'gross_amount' => $request->total,
             ),
             'customer_details' => array(
                 'first_name' => 'test user',
                 'email' => 'testemail@gmail.com'
             ),
+            'custom_field1' => [
+                'car_id' => $request->car_id,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'status' => 'disewa',
+                'users' => '2f9c3eba-24fa-3831-a84a-9016626cc89c'
+            ]
         );
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
 
         return response()->json(['token' => $snapToken]);
+    }
+
+    public function handleAfterPayment(Request $request)
+    {
+
+        $data = [
+            'order_id' => $request->order_id,
+            'payment_type' => $request->payment_type,
+            'status' => $request->transaction_status,
+            'amount' => $request->gross_amount,
+            'date' => Carbon::now(),
+            'user_id' => $request->custom_field2,
+        ];
+
+
+        $signature = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . config('app.midtrans_server_key'));
+        if($request->signature_key == $signature){
+            Donation::updateOrInsert(['order_id' => $request->order_id], $data);
+        }
     }
 }

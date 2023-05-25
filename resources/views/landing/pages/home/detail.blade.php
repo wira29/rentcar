@@ -15,9 +15,12 @@
 
 
     <section class="ftco-section bg-light">
-        <div class="container">
+        <form method="POST" id="form-rent" action="#" class="container">
+            <input type="hidden" name="car_id" value="{{ $car->id }}">
+            <input type="hidden" name="start_date" value="{{ request()->date }}">
+            <input type="hidden" name="end_date" value="{{ \Carbon\Carbon::parse(request()->date)->addDays(request()->days) }}">
             <div class="row">
-                <form method="POST" id="form-rent" action="#" class="col-md-8">
+                <div class="col-md-8">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -42,7 +45,26 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h6>Syarat Rental</h6>
-                                            <p>{{ $car->rental->policies }}</p>
+                                            <div class="accordion" id="accordionExample">
+                                                @foreach($car->rental->conditions as $condition)
+                                                    <div class="">
+                                                        <div class="card-header px-0" style="background-color: white" id="heading-{{$condition->id}}">
+                                                            <h2 class="mb-0">
+                                                                <button class="btn btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{$condition->id}}" aria-expanded="false" aria-controls="collapseOne">
+                                                                    {{ $condition->title }}
+                                                                </button>
+                                                            </h2>
+                                                        </div>
+
+                                                        <div id="collapse-{{$condition->id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                            <div class="card-body">
+                                                                {{ $condition->description }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -73,26 +95,48 @@
                     <div class="card mt-3">
                         <div class="card-body">
                             <h6>Lokasi Pengambilan</h6>
-                            <select name="" class="form-control" id="">
-                                <option value="">Kantor Rental</option>
-                                <option value="">Lokasi Lainnya</option>
+                            <select name="pengambilan-select" class="form-control" id="">
+                                <option value="0">Kantor Rental</option>
+                                <option value="1">Lokasi Lainnya</option>
                             </select>
+
+                            <div id="pengambilan" style="display: none">
+                                <h6 class="mt-3">Kecamatan</h6>
+                                <select class="form-control district" name="district_pengambilan" id="">
+                                    <option value="">Test</option>
+                                </select>
+
+                                <h6 class="mt-3">Kelurahan</h6>
+                                <select class="form-control" name="village_pengambilan" id="">
+                                    <option value="">Test</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="card mt-3">
                         <div class="card-body">
                             <h6>Lokasi Pengembalian</h6>
-                            <select name="" class="form-control" id="">
-                                <option value="">Kantor Rental</option>
-                                <option value="">Lokasi Lainnya</option>
+                            <select name="pengembalian-select" class="form-control" id="">
+                                <option value="0">Kantor Rental</option>
+                                <option value="1">Lokasi Lainnya</option>
                             </select>
+
+                            <div id="pengembalian" style="display: none">
+                                <h6 class="mt-3">Kecamatan</h6>
+                                <select class="form-control district" name="district_pengembalian" id="">
+                                    <option value="">Test</option>
+                                </select>
+
+                                <h6 class="mt-3">Kelurahan</h6>
+                                <select class="form-control" name="village_pengembalian" id="">
+                                    <option value="">Test</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-12 text-right">
-                        <button type="submit" class="btn btn-primary mt-3">Bayar</button>
-                    </div>
-                </form>
+
                 <div class="col-md-4">
                     <div class="col-12">
                         <div class="card">
@@ -102,9 +146,22 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-12 mt-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <p>Total</p>
+                                <h4 id="price"></h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <button type="submit" class="btn btn-secondary btn-block">Bayar</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </section>
 @endsection
 @section('script')
@@ -112,11 +169,166 @@
             src="https://app.sandbox.midtrans.com/snap/snap.js"
             data-client-key="{{ config('app.midtrans_client_key') }}"></script>
     <script>
+        var pricePengambilanDistrict = 0
+        var pricePengembalianDistrict = 0
+        var pricePengambilanVillage = 0
+        var pricePengembalianVillage = 0
+        var price = parseInt('{{ $car->price }}')
+
+        function setPrice() {
+            var total = price + pricePengambilanDistrict + pricePengambilanVillage + pricePengembalianDistrict + pricePengembalianVillage
+            // alert(total)
+            $('#price').html(new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(total))
+        }
+
         $(document).ready(function() {
+
+
+            setPrice()
+
+            $('select[name="pengambilan-select"]').change(function() {
+                if($(this).val() > 0){
+                    $('#pengambilan').css('display', 'block')
+                } else {
+                    pricePengambilanDistrict = 0
+                    pricePengambilanVillage = 0
+                    $('#pengambilan').css('display', 'none')
+
+                    setPrice()
+                }
+            })
+
+            $('select[name="pengembalian-select"]').change(function() {
+                if($(this).val() > 0){
+                    $('#pengembalian').css('display', 'block')
+                } else {
+                    pricePengembalianDistrict = 0
+                    pricePengembalianVillage = 0
+                    $('#pengembalian').css('display', 'none')
+
+                    setPrice()
+                }
+            })
+
+            loadDistrict()
+            function loadDistrict()
+            {
+                $.ajax({
+                    method: 'GET',
+                    url: `https://www.emsifa.com/api-wilayah-indonesia/api/districts/{{ request()->regency_id }}.json`,
+                    dataType: 'JSON',
+                    success: function (districts) {
+                        let html = ''
+
+                        districts.map(district => {
+                            if(district.id == "{{ request()->district_id }}"){
+                                html += `<option selected value="${district.id}">${district.name}</option>`
+                            } else {
+                                html += `<option value="${district.id}">${district.name}</option>`
+                            }
+                        })
+
+                        $('.district').html(html)
+
+                        $('select[name="district_pengambilan"]').trigger("change")
+                        $('select[name="district_pengembalian"]').trigger("change")
+                    }
+                })
+            }
+
+            $('select[name="district_pengambilan"]').change(function() {
+
+                $.ajax({
+                    method: 'GET',
+                    url: `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${$(this).val()}.json`,
+                    dataType: 'JSON',
+                    success: function (villages) {
+                        let html = ''
+
+                        villages.map(village => {
+                            if(village.id == "{{ request()->village_id }}"){
+                                html += `<option selected value="${village.id}">${village.name}</option>`
+                            } else {
+                                html += `<option value="${village.id}">${village.name}</option>`
+                            }
+                        })
+
+                        $('select[name="village_pengambilan"]').html(html)
+                        $('select[name="village_pengambilan"]').trigger("change")
+                    }
+                })
+
+                if($(this).val() != "{{ $car->rental->district_id }}"){
+                    // alert('distrik pengambilan')
+                    if(pricePengambilanDistrict == 0)
+                        pricePengambilanDistrict += 25000
+                }else {
+                    pricePengambilanDistrict = 0
+                }
+                setPrice()
+            })
+
+            $('select[name="district_pengembalian"]').change(function() {
+
+                $.ajax({
+                    method: 'GET',
+                    url: `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${$(this).val()}.json`,
+                    dataType: 'JSON',
+                    success: function (villages) {
+                        let html = ''
+
+                        villages.map(village => {
+                            if(village.id == "{{ request()->village_id }}"){
+                                html += `<option selected value="${village.id}">${village.name}</option>`
+                            } else {
+                                html += `<option value="${village.id}">${village.name}</option>`
+                            }
+                        })
+
+                        $('select[name="village_pengembalian"]').html(html)
+                        $('select[name="village_pengembalian"]').trigger("change")
+                    }
+                })
+
+                if($(this).val() != "{{ $car->rental->district_id }}"){
+                    // alert('distrik pengembalian')
+                    if(pricePengembalianDistrict == 0)
+                        pricePengembalianDistrict += 25000
+                }else {
+                    pricePengembalianDistrict = 0
+                }
+                setPrice()
+            })
+
+            $('select[name="village_pengambilan"]').change(function() {
+                if($(this).val() != "{{ $car->rental->village_id }}") {
+                    // alert('village pengambilan')
+                    if(pricePengambilanVillage == 0)
+                        pricePengambilanVillage += 10000
+                } else {
+                    pricePengambilanVillage = 0
+                }
+                // alert('aa')
+                setPrice()
+            })
+
+            $('select[name="village_pengembalian"]').change(function() {
+                if($(this).val() != "{{ $car->rental->village_id }}") {
+                    // alert('village pengembalian')
+                    if(pricePengembalianVillage == 0)
+                        pricePengembalianVillage += 10000
+                } else {
+                    pricePengembalianVillage = 0
+                }
+
+                setPrice()
+            })
+
             $('#form-rent').submit(function (e) {
                 e.preventDefault()
 
                 var fd = new FormData(document.getElementById('form-rent'))
+                fd.append('total', price + pricePengambilanDistrict + pricePengambilanVillage + pricePengembalianDistrict + pricePengembalianVillage)
 
                 $.ajax({
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
