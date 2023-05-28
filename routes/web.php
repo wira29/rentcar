@@ -21,9 +21,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('landing.pages.home.index');
-//});
+Route::get('/', function () {
+   return view('landing.pages.home.index');
+});
+Route::get('/edit', function () {
+   return view('dashboard.editProfile.index');
+});
 
 Route::name('landing.')->group(function() {
     Route::get('/', [LandingHomeController::class, 'index'])->name('home');
