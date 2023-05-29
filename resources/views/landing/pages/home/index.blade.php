@@ -53,7 +53,7 @@
                                 <div class="d-flex">
                                     <div class="form-group mr-2">
                                         <label for="" class="label">Tanggal Mulai</label>
-                                        <input type="date" name="date" class="form-control" placeholder="Date">
+                                        <input type="text" name="date" id="book_pick_date" class="form-control" placeholder="Date">
                                     </div>
                                     <div class="form-group ml-2">
                                         <label for="" class="label">Durasi</label>
@@ -68,7 +68,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" value="Rent A Car Now" class="btn btn-secondary py-3 px-4">
+                                    <input type="submit" value="Cari" class="btn btn-secondary py-3 px-4">
                                 </div>
                             </form>
                         </div>

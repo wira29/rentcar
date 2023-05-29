@@ -8440,6 +8440,36 @@ h1, h2, h3, h4, h5,
 .featured-top {
   margin-top: -250px; }
 
+.select2-selection {
+    border: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    height: 40px !important;
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-size: 12px;
+    border-radius: 0px;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.select2-selection__rendered{
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: #fff transparent transparent transparent!important;
+    border-style: solid;
+    border-width: 5px 4px 0 4px;
+    height: 0;
+    left: 50%;
+    margin-left: -4px;
+    margin-top: -2px;
+    position: absolute;
+    top: 50%;
+    color: white;
+    width: 0;
+}
+
 .request-form {
   background: #fff;
   padding: 30px;

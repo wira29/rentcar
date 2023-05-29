@@ -8,9 +8,20 @@
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{{ route('landing.home') }}" class="nav-link">Beranda</a></li>
+                @if(auth()->check())
+                    <li class="nav-item"><a href="{{ route('landing.transaction') }}" class="nav-link">Transaksi</a></li>
+                @endif
                 <li class="nav-item"><a href="{{ route('landing.about') }}" class="nav-link">Tentang Kami</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">Kontak</a></li>
-                <li class="nav-item"><a href="{{ route('login') }}" class="nav-link btn btn-secondary btn-sm">Masuk</a></li>
+                @if(auth()->check())
+                    <li class="nav-item"><a href="{{ route('login') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="nav-link btn btn-secondary btn-sm">Logout</a></li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                @else
+                    <li class="nav-item"><a href="{{ route('login') }}" class="nav-link btn btn-secondary btn-sm">Masuk</a></li>
+                @endif
             </ul>
         </div>
     </div>

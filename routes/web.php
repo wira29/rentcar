@@ -6,7 +6,8 @@ use App\Http\Controllers\Dashboard\DriverController;
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\{Dashboard\ConditionController,
     Dashboard\ProfileRentalController,
-    HomeController as LandingHomeController};
+    HomeController as LandingHomeController,
+    TransactionController};
 use App\Http\Controllers\Dashboard\RentcarController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,10 +28,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('landing.')->group(function() {
     Route::get('/', [LandingHomeController::class, 'index'])->name('home');
-    Route::get('/search/', [LandingHomeController::class, 'searchRentals'])->name('searchRentals');
-    Route::get('/detail/{car}', [LandingHomeController::class, 'detailRent'])->name('detailRent');
-    Route::post('/bayar', [LandingHomeController::class, 'bayar'])->name('bayar');
+
     Route::get('/about', [AboutController::class, 'index'])->name('about');
+
+    Route::middleware('auth')->group(function() {
+        Route::get('/search/', [LandingHomeController::class, 'searchRentals'])->name('searchRentals');
+        Route::get('/detail/{car}', [LandingHomeController::class, 'detailRent'])->name('detailRent');
+        Route::post('/bayar', [LandingHomeController::class, 'bayar'])->name('bayar');
+        Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction');
+    });
+
+    Route::post('/payment-notification-handling', [LandingHomeController::class, 'handleAfterPayment'])->name('handlingPayment');
 });
 
 Auth::routes();
