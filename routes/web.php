@@ -8,6 +8,7 @@ use App\Http\Controllers\{Dashboard\ConditionController,
     Dashboard\ProfileRentalController,
     HomeController as LandingHomeController};
 use App\Http\Controllers\Dashboard\RentcarController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,9 +25,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
    return view('landing.pages.home.index');
 });
-Route::get('/edit', function () {
+/* Route::get('/edit', function () {
    return view('dashboard.editProfile.index');
-});
+}); */
 
 Route::name('landing.')->group(function() {
     Route::get('/', [LandingHomeController::class, 'index'])->name('home');
@@ -40,6 +41,10 @@ Auth::routes();
 
 Route::middleware('auth')->group(function() {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    Route::get('profile/{id}/edit', [ProfileRentalController::class, 'edit'])->name('edit-profile');
+    Route::post('profile/{id}/update', [ProfileRentalController::class, 'update'])->name('update-profile');
+
 
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function() {
 
