@@ -102,7 +102,7 @@
 
                 <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
                     @if (auth()->user()->photo)
-                        <img src="{{ asset('storage/' . auth()->user()->photo) }}"
+                        <img src="{{ asset(auth()->user()->photo) }}"
                             class="avatar img-fluid rounded-circle me-1" alt="{{ auth()->user()->name }}" />
                     @else
                         <img src="{{ asset('admin-assets/img/avatars/avatar.jpg') }}"
@@ -112,7 +112,7 @@
                     <span class="text-dark">{{ auth()->user()->name }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="" class="nav-link"><i class="align-middle me-1"
+                    <a class="dropdown-item" href="{{ route('edit-profile', [ 'id' => auth()->user()->id]) }}" class="nav-link"><i class="align-middle me-1"
                             data-feather="user"></i>
                             Profile</a>
                     <div class="dropdown-divider"></div>

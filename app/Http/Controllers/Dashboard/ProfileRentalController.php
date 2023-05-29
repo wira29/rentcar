@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use Hash;
 use App\Http\Controllers\Controller;
 use App\Models\Rental;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+use File;
+use Carbon\Carbon;
+
 
 class ProfileRentalController extends Controller
 {
@@ -16,11 +21,7 @@ class ProfileRentalController extends Controller
      */
     public function index()
     {
-        $data = [
-            'profile' => auth()->user()->rental
-        ];
-
-        return view('dashboard.rental.index', $data);
+        // 
     }
 
     /**
@@ -63,7 +64,11 @@ class ProfileRentalController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+
+        $data['user'] = $user;
+
+        return view('dashboard.editProfile.edit', $data);
     }
 
     /**
@@ -73,22 +78,50 @@ class ProfileRentalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Rental $rental)
+    public function update(Request $request, $id)
     {
-        $data = $request->all();
+        // dd($request->all());
 
-        if($request->hasFile('photo'))
+        $user = User::find($id);
+        
+        $user->email = $request->email;
+        $user->name = trim($request->first_name).' '.trim($request->last_name);
+        $user->phone_number = $request->phone_number;
+        $user->address = $request->address;
+
+        if(isset($request->password) && $request->password != '')
         {
-            if(Storage::exists('public/' . $rental->photo))
-                Storage::delete('public/' . $rental->photo);
-
-            $data['photo'] = $request->photo->store('rental', 'public');
+            $user->password = Hash::make($request->password);
         }
 
+        $user->save();
 
-        $rental->update($data);
+        // dd($request->file('photo'));
 
-        return back()->with('success', 'Berhasil mengedit rental !');
+        if ($request->file('photo')) {
+
+            //delete old photo if exist
+            if(File::exists($user->photo))
+            {
+                File::delete($user->photo);
+            }
+
+            //get file
+            $file = $request->file('photo');
+            $folderPath = 'uploads/user/' . $user->id . '/';
+            $name = 'user-photo-'.Carbon::now()->timestamp. '.' .$file->getClientOriginalExtension();
+
+            $user->photo = $folderPath . $name; // upload path
+            $user->save();
+
+            // create the directory if its not there, this is a must since intervention did not create the directory automatically
+            File::exists($folderPath) or File::makeDirectory($folderPath, 0755, true);
+            //save file
+            $request->file('photo')->move($folderPath, $name);
+
+        }
+
+        return redirect()->back()->with('success', 'Berhasil mengedit profile !');
     }
 
     /**
