@@ -112,13 +112,13 @@
                     <span class="text-dark">{{ auth()->user()->name }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href=""><i class="align-middle me-1"
+                    <a class="dropdown-item" href="" class="nav-link"><i class="align-middle me-1"
                             data-feather="user"></i>
-                        Profile</a>
+                            Profile</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">Sign
+                        document.getElementById('logout-form').submit();">Sign
                         out</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
