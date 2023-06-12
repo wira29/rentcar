@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {
@@ -27,38 +28,38 @@ class HomeController extends Controller
     /**
      * Show the application landing.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        return view('landing.pages.home.index');
+        $data = [
+        'rentals' => Rental::all(),
+    ];
+
+        return view('landing.pages.home.index', $data);
     }
 
     public function searchRentals(Request $request)
     {
         if($request->sopir > 0){
+//
+            $rentDriver = Rent::where(['status' => 'disewa', 'isWithDriver' => 1])->distinct()->get()->pluck('driver_id')->toArray();
+            $driverRentals = Driver::query()
+                ->whereIn('id', $rentDriver)
+                ->get()
+                ->pluck('rental_id')->toArray();
+
             $cars = Car::query()
                 ->select('cars.id', 'rental_id', 'name', 'transmission', 'chairs_ammount', 'vehicle_license', 'merk', 'price', 'car_type', 'photo')
                 ->whereRelation('rental', function ($q) use ($request) {
                     return $q->where('regency_id', $request->regency_id);
                 })
+                ->whereNotIn('rental_id', $driverRentals)
                 ->withCount(['rents' => function($q) {
                     $q->where('status', 'disewa');
                 }])
                 ->having('rents_count', '<', 1)
                 ->paginate(9);
-
-            $drivers = Driver::query()
-                ->whereNotIn('id', function($q) {
-                   return $q->select('driver_id')->from('rents')->where('status', 'disewa');
-                })
-                ->get();
-
-            $filter_cars = $cars->filter(function($item) use($drivers) {
-                return in_array($item->rental_id, $drivers->pluck('rental_id')->toArray());
-            })->values();
-
-            dd($filter_cars);
         }else {
             $cars = Car::query()
                 ->select('cars.id', 'rental_id', 'name', 'transmission', 'chairs_ammount', 'vehicle_license', 'merk', 'price', 'car_type', 'photo')
@@ -66,7 +67,7 @@ class HomeController extends Controller
                     return $q->where('regency_id', $request->regency_id);
                 })
                 ->withCount(['rents' => function($q) use($request) {
-                    $q->where('end_date', '>=', $request->date);
+                    $q->where('status', 'disewa');
                 }])
                 ->having('rents_count', '<', 1)
                 ->paginate(9);
@@ -74,6 +75,7 @@ class HomeController extends Controller
 
         return view('landing.pages.home.search', compact('cars', 'request'));
     }
+
 
     public function detailRent(Car $car)
     {
@@ -110,9 +112,9 @@ class HomeController extends Controller
             ])
         );
 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        $transaction = \Midtrans\Snap::createTransaction($params);
 
-        return response()->json(['token' => $snapToken]);
+        return response()->json(['token' => $transaction->token, 'url' => $transaction->redirect_url]);
     }
 
     public function handleAfterPayment(Request $request)

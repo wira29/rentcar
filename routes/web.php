@@ -4,8 +4,10 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Dashboard\CarController;
 use App\Http\Controllers\Dashboard\DriverController;
 use App\Http\Controllers\Dashboard\HomeController;
-use App\Http\Controllers\{Dashboard\ConditionController,
+use App\Http\Controllers\{ContactController,
+    Dashboard\ConditionController,
     Dashboard\ProfileRentalController,
+    Dashboard\RentalController,
     HomeController as LandingHomeController,
     TransactionController};
 use App\Http\Controllers\Dashboard\RentcarController;
@@ -34,6 +36,7 @@ Route::name('landing.')->group(function() {
     Route::get('/', [LandingHomeController::class, 'index'])->name('home');
 
     Route::get('/about', [AboutController::class, 'index'])->name('about');
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
     Route::middleware('auth')->group(function() {
         Route::get('/search/', [LandingHomeController::class, 'searchRentals'])->name('searchRentals');
@@ -67,7 +70,7 @@ Route::middleware('auth')->group(function() {
             'cars' => CarController::class,
             'drivers' => DriverController::class,
             'conditions' => ConditionController::class,
-            'rental' => ProfileRentalController::class,
+            'rental' => RentalController::class,
         ]);
     });
 });

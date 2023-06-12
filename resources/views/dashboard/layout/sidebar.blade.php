@@ -99,7 +99,7 @@
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('rental.rental.index') }}">
+                    <a class="sidebar-link" href="{{ route('rental.rental.edit', auth()->user()->rental->id) }}">
                         <i class="align-middle" data-feather="sliders"></i>
                         <span class="align-middle">Rental</span>
                     </a>

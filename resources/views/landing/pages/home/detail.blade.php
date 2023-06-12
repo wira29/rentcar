@@ -341,7 +341,7 @@
                     enctype: 'multipart/form-data',
                     dataType: 'JSON',
                     success : function (res) {
-                        console.log(res)
+                        // console.log(res.url)
                         window.snap.pay(res.token, {
                             onSuccess: function(result){
                                 /* You may add your own implementation here */
@@ -352,6 +352,7 @@
                                 )
                             },
                             onPending: function(result){
+                                console.log(result, res)
                                 /* You may add your own implementation here */
                                 // alert("wating your payment!"); console.log(result);
                                 Swal.fire(
