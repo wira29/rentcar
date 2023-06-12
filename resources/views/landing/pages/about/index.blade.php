@@ -40,7 +40,7 @@
                 <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
                     <div class="block-18">
                         <div class="text text-border d-flex align-items-center">
-                            <strong class="number" data-number="60">0</strong>
+                            <strong class="number" data-number="{{ count($rentals) }}">0</strong>
                             <span>Total <br>Rental</span>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                 <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
                     <div class="block-18">
                         <div class="text text-border d-flex align-items-center">
-                            <strong class="number" data-number="1090">0</strong>
+                            <strong class="number" data-number="{{ count($cars) }}">0</strong>
                             <span>Total <br>Mobil</span>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                 <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
                     <div class="block-18">
                         <div class="text text-border d-flex align-items-center">
-                            <strong class="number" data-number="2590">0</strong>
+                            <strong class="number" data-number="{{ count($users) }}">0</strong>
                             <span>Total <br>Pelanggan</span>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                 <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
                     <div class="block-18">
                         <div class="text d-flex align-items-center">
-                            <strong class="number" data-number="67">0</strong>
+                            <strong class="number" data-number="{{ count($transactions) }}">0</strong>
                             <span>Total <br>Transaksi</span>
                         </div>
                     </div>

@@ -9,7 +9,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item {{ (request()->routeIs('landing.home')) ? 'active' : '' }}"><a href="{{ route('landing.home') }}" class="nav-link">Beranda</a></li>
                 @if(auth()->check())
-                    <li class="nav-item"><a href="{{ route('landing.transaction') }}" class="nav-link">Transaksi</a></li>
+                    <li class="nav-item {{ (request()->routeIs('landing.transaction')) ? 'active' : '' }}"><a href="{{ route('landing.transaction') }}" class="nav-link">Transaksi</a></li>
                 @endif
                 <li class="nav-item {{ (request()->routeIs('landing.about')) ? 'active' : '' }}"><a href="{{ route('landing.about') }}" class="nav-link">Tentang Kami</a></li>
                 <li class="nav-item {{ (request()->routeIs('landing.contact')) ? 'active' : '' }}"><a href="{{ route('landing.contact') }}" class="nav-link">Kontak</a></li>

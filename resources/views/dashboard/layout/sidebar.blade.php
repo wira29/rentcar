@@ -99,7 +99,19 @@
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('rental.rental.edit', auth()->user()->rental->id) }}">
+                    <a class="sidebar-link" href="{{ route('rental.transaksi') }}">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span class="align-middle">Transaksi</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('rental.denda') }}">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span class="align-middle">Denda</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->routeIs('rental.rental.edit') ? 'active' : '' }}" href="{{ route('rental.rental.edit', auth()->user()->rental->id) }}">
                         <i class="align-middle" data-feather="sliders"></i>
                         <span class="align-middle">Rental</span>
                     </a>

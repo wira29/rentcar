@@ -21,6 +21,9 @@ return new class extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->enum('status', ['pending', 'disewa', 'selesai']);
+            $table->integer('isWithDriver')->default(0);
+            $table->string('pickup')->default('rental');
+            $table->string('return')->default('rental');
             $table->timestamps();
         });
     }
