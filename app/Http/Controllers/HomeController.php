@@ -84,7 +84,7 @@ class HomeController extends Controller
 
     public function bayar(Request $request): JsonResponse
     {
-
+//        dd($request);
         // Set your Merchant Server Key
         \Midtrans\Config::$serverKey = config('app.midtrans_server_key');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
@@ -108,7 +108,12 @@ class HomeController extends Controller
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
                 'status' => 'disewa',
-                'users' => '2f9c3eba-24fa-3831-a84a-9016626cc89c'
+                'users' => auth()->id(),
+            ]),
+            'custom_field2' => json_encode([
+                'pickup' => ($request->pengambilan_select == 1) ? $request->village_pengambilan : 'rental',
+                'return' => ($request->pengambilan_select == 1) ? $request->village_pengembalian : 'rental',
+                'notes' => $request->notes
             ])
         );
 
@@ -120,12 +125,16 @@ class HomeController extends Controller
     public function handleAfterPayment(Request $request)
     {
         $custom_field1 = json_decode($request->custom_field1, true);
+        $custom_field2 = json_decode($request->custom_field2, true);
         Rent::updateOrInsert(['id' => $request->order_id], [
             'car_id' => $custom_field1['car_id'],
             'users' => $custom_field1['users'],
             'start_date' => Carbon::parse($custom_field1['start_date'])->format('Y-m-d'),
             'end_date' => $custom_field1['end_date'],
-            'status' => $custom_field1['status']
+            'status' => $custom_field1['status'],
+            'pickup' => $custom_field2['pickup'],
+            'return' => $custom_field2['return'],
+            'notes' => $custom_field2['notes']
         ]);
 //        dd($custom_field1);
 

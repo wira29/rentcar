@@ -10,7 +10,7 @@ class Rent extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'car_id', 'driver_id', 'users', 'start_date', 'end_date', 'status'];
+    protected $fillable = ['id', 'car_id', 'driver_id', 'users', 'start_date', 'end_date', 'status', 'pickup', 'return', 'notes'];
 
     public function car(): BelongsTo
     {

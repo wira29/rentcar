@@ -23,7 +23,10 @@
                                     <th>Nama Mobil</th>
                                     <th>Mulai Tanggal</th>
                                     <th>Selesai Tanggal</th>
+                                    <th>Pengambilan</th>
+                                    <th>Pengembalian</th>
                                     <th>Status</th>
+                                    <th>Catatan</th>
                                     <th>Aksi</th>
                                 </tr>
                                 </thead>
@@ -36,7 +39,10 @@
                                         <td>{{$transaksi->car->name}}</td>
                                         <td>{{ \Carbon\Carbon::parse($transaksi->start_date)->locale('id')->isoFormat('D MMMM YYYY HH:mm') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($transaksi->end_date)->locale('id')->isoFormat('D MMMM YYYY HH:mm') }}</td>
+                                        <td>{{$transaksi->pickup}}</td>
+                                        <td>{{$transaksi->return}}</td>
                                         <td>{{$transaksi->status}}</td>
+                                        <td>{{$transaksi->notes}}</td>
                                         <td>
                                             @if($transaksi->status != 'selesai')
                                                 <button data-id="{{ $transaksi->id }}" class="btn btn-success btn-selesai">Konfirmasi Selesai</button>

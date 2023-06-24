@@ -95,7 +95,7 @@
                     <div class="card mt-3">
                         <div class="card-body">
                             <h6>Lokasi Pengambilan</h6>
-                            <select name="pengambilan-select" class="form-control" id="">
+                            <select name="pengambilan_select" class="form-control" id="">
                                 <option value="0">Kantor Rental</option>
                                 <option value="1">Lokasi Lainnya</option>
                             </select>
@@ -116,7 +116,7 @@
                     <div class="card mt-3">
                         <div class="card-body">
                             <h6>Lokasi Pengembalian</h6>
-                            <select name="pengembalian-select" class="form-control" id="">
+                            <select name="pengembalian_select" class="form-control" id="">
                                 <option value="0">Kantor Rental</option>
                                 <option value="1">Lokasi Lainnya</option>
                             </select>
@@ -132,6 +132,12 @@
                                     <option value="">Test</option>
                                 </select>
                             </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h6>Catatan</h6>
+                            <textarea placeholder="catatan..." class="form-control" name="notes" id="" cols="30" rows="5"></textarea>
                         </div>
                     </div>
                 </div>
@@ -186,7 +192,7 @@
 
             setPrice()
 
-            $('select[name="pengambilan-select"]').change(function() {
+            $('select[name="pengambilan_select"]').change(function() {
                 if($(this).val() > 0){
                     $('#pengambilan').css('display', 'block')
                 } else {
@@ -198,7 +204,7 @@
                 }
             })
 
-            $('select[name="pengembalian-select"]').change(function() {
+            $('select[name="pengembalian_select"]').change(function() {
                 if($(this).val() > 0){
                     $('#pengembalian').css('display', 'block')
                 } else {
@@ -247,9 +253,9 @@
 
                         villages.map(village => {
                             if(village.id == "{{ request()->village_id }}"){
-                                html += `<option selected value="${village.id}">${village.name}</option>`
+                                html += `<option selected value="${village.name}">${village.name}</option>`
                             } else {
-                                html += `<option value="${village.id}">${village.name}</option>`
+                                html += `<option value="${village.name}">${village.name}</option>`
                             }
                         })
 
@@ -279,9 +285,9 @@
 
                         villages.map(village => {
                             if(village.id == "{{ request()->village_id }}"){
-                                html += `<option selected value="${village.id}">${village.name}</option>`
+                                html += `<option selected value="${village.name}">${village.name}</option>`
                             } else {
-                                html += `<option value="${village.id}">${village.name}</option>`
+                                html += `<option value="${village.name}">${village.name}</option>`
                             }
                         })
 
@@ -347,9 +353,11 @@
                                 /* You may add your own implementation here */
                                 Swal.fire(
                                     'Berhasil',
-                                    'Terimakasih atas kebaikan anda !',
+                                    'Terimakasih !',
                                     'success'
-                                )
+                                ).then(() => {
+                                    window.location.replace('{{ route('landing.transaction') }}')
+                                })
                             },
                             onPending: function(result){
                                 console.log(result, res)

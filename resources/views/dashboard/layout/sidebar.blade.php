@@ -20,8 +20,8 @@
 
         <ul class="sidebar-nav">
             <li class="sidebar-header">Master</li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="">
+            <li class="sidebar-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('home') }}">
                     <i class="align-middle" data-feather="sliders"></i>
                     <span class="align-middle">Dashboard</span>
                 </a>
@@ -98,20 +98,20 @@
                         </li>
                     </ul>
                 </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('rental.transaksi') }}">
+                <li class="sidebar-item {{ request()->routeIs('rental.transaksi') ? 'active' : '' }}">
+                    <a class="sidebar-link " href="{{ route('rental.transaksi') }}">
                         <i class="fas fa-exchange-alt"></i>
                         <span class="align-middle">Transaksi</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item {{ request()->routeIs('rental.denda') ? 'active' : '' }}">
                     <a class="sidebar-link" href="{{ route('rental.denda') }}">
                         <i class="fas fa-dollar-sign"></i>
                         <span class="align-middle">Denda</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ request()->routeIs('rental.rental.edit') ? 'active' : '' }}" href="{{ route('rental.rental.edit', auth()->user()->rental->id) }}">
+                <li class="sidebar-item {{ request()->routeIs('rental.rental.edit') ? 'active' : '' }}">
+                    <a class="sidebar-link " href="{{ route('rental.rental.edit', auth()->user()->rental->id) }}">
                         <i class="align-middle" data-feather="sliders"></i>
                         <span class="align-middle">Rental</span>
                     </a>

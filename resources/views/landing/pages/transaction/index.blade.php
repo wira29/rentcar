@@ -15,7 +15,7 @@
 
 
     <section class="ftco-section bg-light">
-        <div class="container">
+        <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
                     <table class="table" id="datatables-reponsive">
@@ -25,11 +25,14 @@
                             <th scope="col">Mobil</th>
                             <th scope="col">Mulai</th>
                             <th scope="col">Selesai</th>
+                            <th scope="col">Pengambilan</th>
+                            <th scope="col">Pengembalian</th>
                             <th scope="col">Status</th>
                             <th scope="col">Metode Pembayaran</th>
                             <th scope="col">Status Pembayaran</th>
                             <th scope="col">Total</th>
                             <th scope="col">Tanggal Transaksi</th>
+                            <th scope="col">Catatan</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -39,11 +42,14 @@
                                 <td>{{ $t->rent->car->name }}</td>
                                 <td>{{ $t->rent->start_date }}</td>
                                 <td>{{ $t->rent->end_date }}</td>
+                                <td>{{ $t->rent->pickup }}</td>
+                                <td>{{ $t->rent->return }}</td>
                                 <td>{{ $t->rent->status }}</td>
                                 <td>{{ $t->payment_type }}</td>
                                 <td>{{ $t->status }}</td>
                                 <td>Rp.{{ number_format($t->total) }}</td>
                                 <td>{{ $t->date }}</td>
+                                <td>{{ $t->rent->notes }}</td>
                             </tr>
                         @endforeach
                         </tbody>

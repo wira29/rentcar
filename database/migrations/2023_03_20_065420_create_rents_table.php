@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('isWithDriver')->default(0);
             $table->string('pickup')->default('rental');
             $table->string('return')->default('rental');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

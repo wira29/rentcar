@@ -18,7 +18,6 @@ class TransactionController extends Controller
                             ->orderBy('date', 'desc')
                             ->get()
         ];
-
         return view('landing.pages.transaction.index', $data);
     }
 

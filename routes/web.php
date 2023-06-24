@@ -11,7 +11,7 @@ use App\Http\Controllers\{ContactController,
     HomeController as LandingHomeController,
     TransactionController};
 use App\Http\Controllers\Dashboard\RentcarController;
-use App\Http\Controllers\UserController;
+//use App\Http\Controllers\UserController;
 use App\Http\Controllers\PunishmentController;
 use Illuminate\Support\Facades\Route;
 
