@@ -20,7 +20,7 @@
                 @forelse($cars as $c)
                     <div class="col-md-4">
                         <div class="car-wrap rounded ftco-animate">
-                            <div class="img rounded d-flex align-items-end" style="background-image: url('{{ asset('app-assets/images/car-1.jpg') }}');">
+                            <div class="img rounded d-flex align-items-end" style="background-image: url('{{ ($c->photo) ? asset('storage/' . $c->photo) : asset('app-assets/images/car-1.jpg') }}');">
                             </div>
                             <div class="text">
                                 <h2 class="mb-0">{{ $c->name }} <span class="text-secondary">({{ $c->merk }})</span></h2>
