@@ -96,6 +96,7 @@
                                         <div class="text-left d-grid gap-2 mt-5">
                                             <!-- <a href="dashboard-default.html" class="btn btn-lg btn-primary">Sign in</a> -->
                                             <button type="submit" class="btn btn-lg btn-primary">Masuk</button>
+                                            <p class="text-center">belum punya akun ? <a href="{{ route('register') }}">Daftar</a></p>
                                         </div>
                                     </form>
                                 </div>
